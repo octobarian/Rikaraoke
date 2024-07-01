@@ -254,7 +254,7 @@ class Karaoke:
     def get_search_results(self, textToSearch):
         logging.info("Searching YouTube for: " + textToSearch)
         num_results = 10
-        yt_search = 'ytsearch%d:"%s"' % (num_results, unidecode(textToSearch))
+        yt_search = 'ytsearch%d:"%s"' % (num_results, textToSearch)
         cmd = [self.youtubedl_path, "-j", "--no-playlist", "--flat-playlist", yt_search]
         logging.debug("Youtube-dl search command: " + " ".join(cmd))
         try:
@@ -273,7 +273,13 @@ class Karaoke:
             raise e
 
     def get_karaoke_search_results(self, songTitle):
-        return self.get_search_results(songTitle + " karaoke")
+        logging.info("Preparing karaoke search for: " + songTitle)
+        # Check if the search text contains Korean characters
+        if any("\uac00" <= char <= "\ud7a3" for char in songTitle):
+            searchText = songTitle + " 노래방"
+        else:
+            searchText = songTitle + " karaoke"
+        return self.get_search_results(searchText)
 
     def download_video(self, video_url, enqueue=False, user="Pikaraoke"):
         logging.info("Downloading video: " + video_url)
