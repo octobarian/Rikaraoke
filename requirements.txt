@@ -12,3 +12,4 @@ selenium
 ffmpeg-python
 yt-dlp
 webdriver-manager
+seleniumbase

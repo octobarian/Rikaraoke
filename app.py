@@ -17,17 +17,7 @@ from flask import (Flask, flash, make_response, redirect, render_template,
                    request, send_file, url_for)
 from flask_babel import Babel
 from flask_paginate import Pagination, get_page_parameter
-
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-
-from webdriver_manager.chrome import ChromeDriverManager
+from seleniumbase import Driver
 
 import karaoke
 from constants import LANGUAGES, VERSION
@@ -745,7 +735,7 @@ if __name__ == "__main__":
         "--screensaver-timeout",
         help="Delay before the screensaver begins (in secs). (default: %s )"
         % default_screensaver_delay,
-        default=default_screensaver_delay,
+        default=screensaver_delay,
         required=False,
     )
     parser.add_argument(
@@ -885,27 +875,11 @@ if __name__ == "__main__":
     )
     cherrypy.engine.start()
 
-   # Start the splash screen using selenium
+    # Start the splash screen using seleniumbase Driver
     if not args.hide_splash_screen: 
-        if platform == "raspberry_pi":
-            service = Service(ChromeDriverManager().install())
-        else: 
-            service = Service(ChromeDriverManager().install())
-        
-        options = Options()
-
-        if args.window_size:
-            options.add_argument("--window-size=%s" % (args.window_size))
-            options.add_argument("--window-position=0,0")
-            
-        options.add_argument("--kiosk")
-        options.add_argument("--start-maximized")
-        options.add_experimental_option("excludeSwitches", ['enable-automation'])
-        
-        driver = webdriver.Chrome(service=service, options=options)
+        driver = Driver()
         driver.get(f"{k.url}/splash")
         driver.add_cookie({'name': 'user', 'value': 'PiKaraoke-Host'})
-        
         # Clicking this counts as an interaction, which will allow the browser to autoplay audio
         wait = WebDriverWait(driver, 60)
         elem = wait.until(EC.element_to_be_clickable((By.ID, "permissions-button")))
@@ -916,6 +890,7 @@ if __name__ == "__main__":
 
     # Close running processes when done
     if not args.hide_splash_screen:
-        driver.close()
+        driver.quit()
     cherrypy.engine.exit()
+
     sys.exit()
