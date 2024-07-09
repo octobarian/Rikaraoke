@@ -12,4 +12,4 @@ selenium
 ffmpeg-python
 yt-dlp
 webdriver-manager
-seleniumbase
+seleniumbase==4.9.2
