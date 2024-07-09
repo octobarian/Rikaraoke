@@ -735,7 +735,7 @@ if __name__ == "__main__":
         "--screensaver-timeout",
         help="Delay before the screensaver begins (in secs). (default: %s )"
         % default_screensaver_delay,
-        default=screensaver_delay,
+        default=default_screensaver_delay,
         required=False,
     )
     parser.add_argument(
