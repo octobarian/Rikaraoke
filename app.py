@@ -671,7 +671,7 @@ def get_default_dl_dir(platform):
 if __name__ == "__main__":
 
     platform = get_platform()
-    default_port = 5050
+    default_port = 5555
     default_ffmpeg_port = 5556
     default_volume = 0.85
     default_splash_delay = 3
@@ -883,8 +883,8 @@ if __name__ == "__main__":
 
     # Start the splash screen using selenium
     if not args.hide_splash_screen: 
-        # This will always be running on a Raspberry Pi, removed check
         service = Service('/usr/bin/chromedriver')
+        options = Options()
 
         if args.window_size:
             options.add_argument("--window-size=%s" % (args.window_size))
