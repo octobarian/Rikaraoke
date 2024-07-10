@@ -17,7 +17,13 @@ from flask import (Flask, flash, make_response, redirect, render_template,
                    request, send_file, url_for)
 from flask_babel import Babel
 from flask_paginate import Pagination, get_page_parameter
-from seleniumbase import Driver
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 import karaoke
 from constants import LANGUAGES, VERSION
@@ -875,10 +881,20 @@ if __name__ == "__main__":
     )
     cherrypy.engine.start()
 
-    # Start the splash screen using seleniumbase Driver
+    # Start the splash screen using selenium
     if not args.hide_splash_screen: 
-        driver = Driver()
-        driver.get(f"{k.url}/splash")
+        # This will always be running on a Raspberry Pi, removed check
+        service = Service('/usr/bin/chromedriver')
+
+        if args.window_size:
+            options.add_argument("--window-size=%s" % (args.window_size))
+            options.add_argument("--window-position=0,0")
+            
+        options.add_argument("--kiosk")
+        options.add_argument("--start-maximized")
+        options.add_experimental_option("excludeSwitches", ['enable-automation'])
+        driver = webdriver.Chrome(service=service, options=options)
+        driver.get(f"{k.url}/splash" )
         driver.add_cookie({'name': 'user', 'value': 'PiKaraoke-Host'})
         # Clicking this counts as an interaction, which will allow the browser to autoplay audio
         wait = WebDriverWait(driver, 60)
@@ -890,7 +906,7 @@ if __name__ == "__main__":
 
     # Close running processes when done
     if not args.hide_splash_screen:
-        driver.quit()
+        driver.close()
     cherrypy.engine.exit()
 
     sys.exit()
