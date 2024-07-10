@@ -1,20 +1,10 @@
-# PiKaraoke
+# RiKaraoke
 
-PiKaraoke is a "KTV"-style karaoke song search and queueing system. It connects to your TV, and shows a QR code for computers and smartphones to connect to a web interface. From there, multiple users can seamlessly search your local track library, queue up songs, add an endless selection of new karaoke tracks from YouTube, and more. Works on Raspberry Pi, OSX, Windows, and Linux!
-
-If you want to support this project with a little monetary tip, it's much appreciated: <br/>
-<a href="https://www.buymeacoffee.com/vicwomg" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+PiKaraoke is a Fork of the original PiKaraoke but with added support for Korean searches and optimized to run in the RiKaraoke Environment
 
 ## What's new (1.2)
 
-The player and splash screen is now HTML-based
-
-Why? Less pesky dependencies for one. Pygame was previously used to render the splash screen and VLC would pop on top of it. Both these packages proved to be difficult to maintain on Raspberry Pi OS versions. This has been replaced with a browser-based renderer which will host both the splash screen and video playback (streamed via ffmpeg) which should work much better on a wide variety of OS. Secondly, this means standalone server support: now you can run pikaraoke as a dedicated server process, launch the splash screen on a remote browser, and don't have to have your pi connected to the TV!
-
-- Splash screen player is way more dynamic feature-rich now
-- Better python environment handling and yt-dlp install isolation
-- Lots of under-the-hood bugfixes and improvements from the backlog
-- Sunfly-inspired singing dolphin logo and screensaver :)
+Karaoke results searched now check for Korean song or English song.
 
 ## Features
 
@@ -75,7 +65,7 @@ Python >= 3.8 is necessary
 Clone this repo:
 
 ```
-git clone https://github.com/vicwomg/pikaraoke.git
+git clone https://github.com/octobarian/pikaraoke.git
 cd pikaraoke
 ```
 
