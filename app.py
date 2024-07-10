@@ -858,7 +858,7 @@ if __name__ == "__main__":
         hide_url=args.hide_url,
         hide_raspiwifi_instructions=args.hide_raspiwifi_instructions,
         hide_splash_screen=args.hide_splash_screen,
-        high_quality=args.high_quality,
+        high_quality=True,
         logo_path=arg_path_parse(args.logo_path),
         hide_overlay=args.hide_overlay,
         screensaver_timeout=args.screensaver_timeout,
