@@ -285,7 +285,7 @@ class Karaoke:
         logging.info("Downloading video: " + video_url)
         dl_path = self.download_path + "%(title)s---%(id)s.%(ext)s"
         file_quality = (
-            "bestvideo[ext!=webm][height>=720]+bestaudio[ext!=webm]/best[ext!=webm]"
+            "bestvideo[ext!=webm][height>=720]+bestaudio[ext!=webm]/best[height<=720,ext!=webm]"
             if self.high_quality
             else "bestvideo[ext!=webm][height<=480]+bestaudio[ext!=webm]/best[ext!=webm]"
         )
